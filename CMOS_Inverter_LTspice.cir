@@ -1,0 +1,15 @@
+* CMOS inverter - verified basic LTspice netlist
+* Open this .cir file in LTspice and click Run.
+* Expected: V(in) switches 0 V <-> 5 V; V(out) switches 5 V <-> 0 V.
+
+VDD vdd 0 DC 5
+VIN in 0 PULSE(0 5 0 1n 1n 5m 10m)
+
+* MOSFET pin order: Drain Gate Source Bulk
+M1 out in vdd vdd PM
+M2 out in 0   0   NM
+.model NM NMOS (LEVEL=1 VTO=0.7  KP=120u)
+.model PM PMOS (LEVEL=1 VTO=-0.7 KP=50u)
+
+.tran 0 20m 0 10u
+.end
